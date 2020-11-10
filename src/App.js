@@ -1,25 +1,49 @@
-import logo from './logo.svg';
+import React from "react"
 import './App.css';
+import MyJumbotron from "./MyJumbotron";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    todoList: [
+      { name: "Faire un cours React", todo: true },
+      { name: "Faire à Manger", todo: true },
+      { name: "Finir le projet en cours", todo: true },
+      { name: "Prendre du repos", todo: true },
+    ],
+  };
+
+  addTodo = (todoToAdd) => {
+    // console.log(todoToAdd)
+    this.setState({
+      todoList: [
+        ...this.state.todoList,
+        { name: todoToAdd, todo: true}
+      ]
+    })
+  }
+
+  editTodo = (index) => {
+    this.setState({
+      todoList: [
+        ...this.state.todoList.slice(0, index),
+        {
+          name: this.state.todoList[index].name,
+          todo: !this.state.todoList[index].todo,
+        },
+        ...this.state.todoList.slice(index + 1, this.state.todoList.length),
+      ],
+    });
+    console.log("APP => ", index)
+  }
+
+  render() {
+    // console.log(this.state.todoList)
+    return (
+      <div className="App">
+        <MyJumbotron list={this.state.todoList} functionToAddTodo={this.addTodo} functionToEditTodo={this.editTodo}/>
+      </div>
+    );
+  }
 }
 
 export default App;
